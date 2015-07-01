@@ -52,7 +52,7 @@ echo Breadcrumbs::widget(['links' => [
             [
                 'attribute' => 'status',
                 'value' => function ($model, $index, $widget) {
-                    return '';
+                    return $index;
                 },
                 'filter' => $searchModel->getStatus()
             ]
