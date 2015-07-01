@@ -1,11 +1,11 @@
 <?php
 
-namespace Zelenin\yii\modules\I18n;
+namespace Zolotarev\yii\modules\I18n;
 
 use Yii;
 use yii\base\BootstrapInterface;
 use yii\data\Pagination;
-use Zelenin\yii\modules\I18n\console\controllers\I18nController;
+use Zolotarev\yii\modules\I18n\console\controllers\I18nController;
 
 class Bootstrap implements BootstrapInterface
 {

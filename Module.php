@@ -1,10 +1,10 @@
 <?php
 
-namespace Zelenin\yii\modules\I18n;
+namespace Zolotarev\yii\modules\I18n;
 
 use Yii;
 use yii\i18n\MissingTranslationEvent;
-use Zelenin\yii\modules\I18n\models\SourceMessage;
+use Zolotarev\yii\modules\I18n\models\SourceMessage;
 
 class Module extends \yii\base\Module
 {
