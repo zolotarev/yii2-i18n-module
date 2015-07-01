@@ -26,11 +26,11 @@
     },
     "require": {
         "yiisoft/yii2": "~2",
-        "zelenin/yii2-semantic-ui": "*"
+        "zolotarev/yii2-semantic-ui": "*"
     },
     "autoload": {
         "psr-4": {
-            "Zelenin\\yii\\modules\\I18n\\": ""
+            "Zolotarev\\yii\\modules\\I18n\\": ""
         }
     },
     "extra": {
