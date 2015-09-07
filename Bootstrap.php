@@ -19,7 +19,7 @@ class Bootstrap implements BootstrapInterface
             $app->getUrlManager()->addRules([
                 'translations/<id:\d+>' => $moduleId . '/default/update',
                 'translations/page/<page:\d+>' => $moduleId . '/default/index',
-                'translations' => $moduleId . '/default/index',
+                'translations/index' => $moduleId . '/default/index',
             ], false);
 
             Yii::$container->set(Pagination::className(), [

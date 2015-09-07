@@ -1,6 +1,6 @@
 <?php
 
-namespace Zolotarev\yii\modules\I18n\components;
+namespace Zelenin\yii\modules\I18n\components;
 
 use yii\base\InvalidConfigException;
 use yii\i18n\DbMessageSource;

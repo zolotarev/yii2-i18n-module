@@ -16,12 +16,9 @@ use Zelenin\yii\modules\I18n\models\search\SourceMessageSearch;
 use Zelenin\yii\modules\I18n\Module;
 
 $this->title = Module::t('Translations');
-echo Breadcrumbs::widget(['links' => [
-    $this->title
-]]);
+$this->params['breadcrumbs'][] = ['label' => Module::t('Translations')];
 ?>
 <div class="message-index">
-    <h3><?= Html::encode($this->title) ?></h3>
     <?php
     Pjax::begin();
     echo GridView::widget([
@@ -52,7 +49,7 @@ echo Breadcrumbs::widget(['links' => [
             [
                 'attribute' => 'status',
                 'value' => function ($model, $index, $widget) {
-                    return $index;
+                    return SourceMessageSearch::getStatus2($index);
                 },
                 'filter' => $searchModel->getStatus()
             ]

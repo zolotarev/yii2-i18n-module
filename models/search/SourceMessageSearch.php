@@ -6,7 +6,10 @@ use yii\data\ActiveDataProvider;
 use Yii;
 use yii\helpers\ArrayHelper;
 use Zelenin\yii\modules\I18n\models\SourceMessage;
+use Zelenin\yii\modules\I18n\models\Message;
 use Zelenin\yii\modules\I18n\Module;
+//use Zelenin\yii\SemanticUI\collections\Message;
+
 
 class SourceMessageSearch extends SourceMessage
 {
@@ -63,5 +66,17 @@ class SourceMessageSearch extends SourceMessage
             return ArrayHelper::getValue($statuses, $id, null);
         }
         return $statuses;
+    }
+
+    public static function getStatus2($id)
+    {
+        $langs = Yii::$app->components['i18n']['languages'];
+        $langlist = implode("','", $langs);
+        $langLen= sizeof($langs);
+
+        $messageTableName = Message::tableName();
+        $query = Message::findBySql("SELECT * FROM yii2_message WHERE language IN ('$langlist') AND id=$id AND (TRIM(translation)<>'' AND translation IS NOT NULL)")->count('*');
+
+        return $query."/".$langLen;
     }
 }

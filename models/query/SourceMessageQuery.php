@@ -10,37 +10,42 @@ class SourceMessageQuery extends ActiveQuery
 {
     public function notTranslated()
     {
+
+        $langs = Yii::$app->components['i18n']['languages'];
+        $langlist = implode("','", $langs);
+        $langLen = sizeof($langs);
+
         $messageTableName = Message::tableName();
-        $query = Message::find()->select($messageTableName . '.id');
-        $i = 0;
-        foreach (Yii::$app->getI18n()->languages as $language) {
-            if ($i === 0) {
-                $query->andWhere($messageTableName . '.language = :language and ' . $messageTableName . '.translation is not null', [':language' => $language]);
-            } else {
-                $query->innerJoin($messageTableName . ' t' . $i, 't' . $i . '.id = ' . $messageTableName . '.id and t' . $i . '.language = :language and t' . $i . '.translation is not null', [':language' => $language]);
-            }
-            $i++;
+        $query = Message::findBySql("
+          SELECT yii2_source_message.*
+          FROM yii2_source_message, yii2_message
+          WHERE yii2_message.language IN ('$langlist') AND (TRIM(yii2_message.translation)='' OR yii2_message.translation IS NULL) AND yii2_source_message.id=yii2_message.id")->all();
+        $ids = [];
+        foreach ($query as $row) {
+            $ids [] = $row->id;
         }
-        $ids = $query->indexBy('id')->all();
-        $this->andWhere(['not in', 'id', array_keys($ids)]);
+
+        $this->andWhere("id IN ('". implode("','", $ids)."')");
         return $this;
     }
 
     public function translated()
     {
+        $langs = Yii::$app->components['i18n']['languages'];
+        $langlist = implode("','", $langs);
+        $langLen = sizeof($langs);
+
         $messageTableName = Message::tableName();
-        $query = Message::find()->select($messageTableName . '.id');
-        $i = 0;
-        foreach (Yii::$app->getI18n()->languages as $language) {
-            if ($i === 0) {
-                $query->andWhere($messageTableName . '.language = :language and ' . $messageTableName . '.translation is not null', [':language' => $language]);
-            } else {
-                $query->innerJoin($messageTableName . ' t' . $i, 't' . $i . '.id = ' . $messageTableName . '.id and t' . $i . '.language = :language and t' . $i . '.translation is not null', [':language' => $language]);
-            }
-            $i++;
+        $query = Message::findBySql("
+          SELECT yii2_source_message.*
+          FROM yii2_source_message, yii2_message
+          WHERE yii2_message.language IN ('$langlist') AND (TRIM(yii2_message.translation)='' OR yii2_message.translation IS NULL) AND yii2_source_message.id=yii2_message.id")->all();
+        $ids = [];
+        foreach ($query as $row) {
+            $ids [] = $row->id;
         }
-        $ids = $query->indexBy('id')->all();
-        $this->andWhere(['in', 'id', array_keys($ids)]);
+
+        $this->andWhere("id NOT IN ('". implode("','", $ids)."')");
         return $this;
     }
 }

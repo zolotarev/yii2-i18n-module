@@ -6,10 +6,12 @@ use yii\base\Model;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
+use yii\helpers\Html;
 use Yii;
 use Zelenin\yii\modules\I18n\models\search\SourceMessageSearch;
 use Zelenin\yii\modules\I18n\models\SourceMessage;
 use Zelenin\yii\modules\I18n\Module;
+//use zolotarev\giiant\crud\callbacks\yii\Html;
 
 class DefaultController extends Controller
 {
@@ -35,7 +37,10 @@ class DefaultController extends Controller
 
         if (Model::loadMultiple($model->messages, Yii::$app->getRequest()->post()) && Model::validateMultiple($model->messages)) {
             $model->saveMessages();
-            Yii::$app->getSession()->setFlash('success', Module::t('Updated'));
+            Yii::$app->getSession()->setFlash('alert', [
+                'body'=>Module::t('Updated')."<br/>".Module::t('Go to list of')." ".Html::a(Module::t('Not translated'),'/translations/index?SourceMessageSearch%5Bmessage%5D=&SourceMessageSearch%5Bcategory%5D=&SourceMessageSearch%5Bstatus%5D=2')." ".Module::t('Or')." ".Html::a(Module::t('All'),'/translations/index'),
+                'options'=>['class'=>'alert-success']
+            ]);
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('update', ['model' => $model]);
